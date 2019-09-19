@@ -16,35 +16,30 @@
  *
  */
 
-namespace MichielGerritsen\BirthdayVerify\Model;
+namespace MichielGerritsen\BirthdayVerify;
 
-use MichielGerritsen\BirthdayVerify\Config;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Store\Model\ScopeInterface;
 
-class BirthdayManagement implements \MichielGerritsen\BirthdayVerify\Api\BirthdayManagementInterface
+class Config
 {
     /**
-     * @var Config
+     * @var ScopeConfigInterface
      */
     private $config;
 
     public function __construct(
-        Config $config
+        ScopeConfigInterface $config
     ) {
         $this->config = $config;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function verify($day, $month, $year)
+    public function getMinimumAge($storeId = null)
     {
-        $minimumAge = $this->config->getMinimumAge();
-
-        $date1 = new \DateTime('now');
-        $date2 = new \DateTime($year . '-' . $month . '-' . $day);
-
-        $diff = $date1->diff($date2);
-
-        return $diff->y >= $minimumAge;
+        return $this->config->getValue(
+            'catalog/birthday/minimum_age',
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 }

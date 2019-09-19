@@ -18,19 +18,19 @@
 
 namespace MichielGerritsen\BirthdayVerify\Model;
 
-use MichielGerritsen\BirthdayVerify\Config;
+use MichielGerritsen\BirthdayVerify\Service\AgeChecker;
 
-class BirthdayManagement implements \MichielGerritsen\BirthdayVerify\Api\BirthdayManagementInterface
+class BirthdayManagementNew implements \MichielGerritsen\BirthdayVerify\Api\BirthdayManagementInterface
 {
     /**
-     * @var Config
+     * @var AgeChecker
      */
-    private $config;
+    private $ageChecker;
 
     public function __construct(
-        Config $config
+        AgeChecker $ageChecker
     ) {
-        $this->config = $config;
+        $this->ageChecker = $ageChecker;
     }
 
     /**
@@ -38,13 +38,8 @@ class BirthdayManagement implements \MichielGerritsen\BirthdayVerify\Api\Birthda
      */
     public function verify($day, $month, $year)
     {
-        $minimumAge = $this->config->getMinimumAge();
+        $age = $this->ageChecker->fromDate(new \DateTime($year . '-' . $month . '-' . $day));
 
-        $date1 = new \DateTime('now');
-        $date2 = new \DateTime($year . '-' . $month . '-' . $day);
-
-        $diff = $date1->diff($date2);
-
-        return $diff->y >= $minimumAge;
+        return $age >= 18;
     }
 }

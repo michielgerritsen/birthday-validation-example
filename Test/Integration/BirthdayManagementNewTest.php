@@ -22,32 +22,20 @@ use MichielGerritsen\BirthdayVerify\Config;
 use MichielGerritsen\BirthdayVerify\Model\BirthdayManagement;
 use PHPUnit\Framework\TestCase;
 
-class BirthdayManagementTest extends TestCase
+class BirthdayManagementNewTest extends TestCase
 {
-    public function verifyProvider()
-    {
-        $now = new \DateTimeImmutable('now');
-        $eighteen = $now->sub(new \DateInterval('P18Y'));
-        $nineteen = $now->sub(new \DateInterval('P19Y'));
-
-        return [
-            [$eighteen, 18],
-            [$nineteen, 19],
-        ];
-    }
-
     /**
-     * @dataProvider verifyProvider
+     * @magentoConfigFixture current_store catalog/birthday/minimum_age 19
      */
-    public function testVerify($date, $minimumAge)
+    public function testVerify()
     {
         $ob = \Magento\TestFramework\ObjectManager::getInstance();
 
-        $configMock = $this->createMock(Config::class);
-        $configMock->method('getMinimumAge')->willReturn($minimumAge);
-
         /** @var BirthdayManagement $instance */
         $instance = $ob->create(BirthdayManagement::class);
+
+        $date = new \DateTime('now');
+        $date->sub(new \DateInterval('P19Y'));
 
         $result = $instance->verify(
             $date->format('d'),
