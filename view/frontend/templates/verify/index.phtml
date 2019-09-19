@@ -1,0 +1,65 @@
+<div class="input">
+    <form class="form">
+        <table>
+            <tr>
+                <td>Day</td>
+                <td><input type="text" name="day"></td>
+            </tr>
+            <tr>
+                <td>Month</td>
+                <td><input type="text" name="month"></td>
+            </tr>
+            <tr>
+                <td>Year</td>
+                <td><input type="text" name="year"></td>
+            </tr>
+        </table>
+
+        <button class="button" type="submit">Verify your age</button>
+    </form>
+</div>
+
+<div class="target" style="display: none;">Loading</div>
+
+<script>
+    require([
+        'jquery',
+        'mage/url',
+        'mage/storage'
+    ], function (
+        $,
+        urlBuilder,
+        storage
+    ) {
+        $('.form').submit( function (event) {
+            event.preventDefault();
+
+            $('.input').hide();
+            $('.target').show();
+
+            var url = urlBuilder.build('/rest/V1/michielgerritsen-birthdayverify/birthday');
+
+            var payload = {
+                day: $('[name="day"]').val(),
+                month: $('[name="month"]').val(),
+                year: $('[name="year"]').val(),
+            };
+
+            storage.post(
+                url,
+                JSON.stringify(payload)
+            ).done(function (response) {
+                var target = $('.target');
+
+                if (!response) {
+                    target.html('You are too young, go play with my little ponies.<br><br><img src="https://i.giphy.com/media/OUb561ZD45Wxy/source.gif">');
+                    return;
+                }
+
+                target.html('<img src="https://i.giphy.com/media/nXxOjZrbnbRxS/source.gif">');
+            }).fail(function (response) {
+                alert('There was error while validating the data');
+            });
+        });
+    });
+</script>

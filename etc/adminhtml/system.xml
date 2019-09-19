@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="catalog" sortOrder="999" translate="label">
+            <label>catalog</label>
+        </tab>
+        <section id="birthday" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="1000" translate="label">
+            <label>Birthday</label>
+            <tab>catalog</tab>
+            <resource>MichielGerritsen_BirthdayVerify::config_michielgerritsen_birthdayverify</resource>
+            <group id="general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>Birthday</label>
+                <field id="minimum_age" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+                    <label>Minimum age</label>
+                    <comment/>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

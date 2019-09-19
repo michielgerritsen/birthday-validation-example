@@ -1,0 +1,22 @@
+{
+    "name": "michielgerritsen/module-birthdayverify",
+    "description": "",
+    "type": "magento2-module",
+    "license": "proprietary",
+    "authors": [
+        {
+            "email": "michiel@controlaltdelete.nl",
+            "name": "Michiel Gerritsen"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "MichielGerritsen\\BirthdayVerify\\": ""
+        }
+    }
+}
